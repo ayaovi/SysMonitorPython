@@ -1,9 +1,14 @@
 # File: Server.py; accepts a connection from a browser 
-# 	and responds back with system information
+#	 	and responds back with system information
+#
 # @author Ayaovi Espoir Djissenou
+#
 # @version 04/05/2016
 
 import socket
+from re import split
+import os
+import subprocess
 
 HOST, PORT = '', 2222	# listening on port 2222 :)
 
@@ -14,15 +19,22 @@ server_socket.listen(1)
 
 print 'Listening on port %s ...' % PORT
 
-while True:
-    client_connection, client_address = server_socket.accept()
-    request = client_connection.recv(1024)
-    print request
+#while True:
+    #client_connection, client_address = server_socket.accept()
+    #request = client_connection.recv(1024)
+    #print request
 
-    http_response = """\
-HTTP/1.1 200 OK
+    #http_response = """\
+#HTTP/1.1 200 OK
 
-Hello, World!
-"""
-    client_connection.sendall(http_response)
-    client_connection.close()
+#Hello, World!
+#"""
+    #client_connection.sendall(http_response)
+    #client_connection.close()
+processes = subprocess.Popen('ps -aux', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+
+for line in processes.stdout.readlines():
+	process_info = split(" *", line)
+	print process_info[2]
+#    print line,
+retval = processes.wait()
